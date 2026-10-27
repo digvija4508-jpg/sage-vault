@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { PublicDownloadItem } from "@/types/download";
 import {
   Lock,
@@ -19,6 +19,8 @@ import {
   FileCode,
   FileBox,
   FileText,
+  Share2,
+  Check,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -38,6 +40,7 @@ export default function DirectDownloadClient({ item }: DirectDownloadClientProps
     expiresInMinutes: number;
   } | null>(null);
 
+  const [copiedLink, setCopiedLink] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const getFileIcon = (type: string) => {
@@ -56,50 +59,75 @@ export default function DirectDownloadClient({ item }: DirectDownloadClientProps
     }
   };
 
+  const verifyPasscode = useCallback(
+    async (passToTest: string) => {
+      setIsLoading(true);
+      setError(null);
+
+      try {
+        const res = await fetch("/api/verify", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            id: item.id,
+            password: passToTest.trim(),
+          }),
+        });
+
+        const data = await res.json();
+
+        if (!res.ok || !data.success) {
+          setError(data.error || "Incorrect passcode. Please try again.");
+          if (data.hint) {
+            setHint(data.hint);
+          }
+          setIsLoading(false);
+          return;
+        }
+
+        setUnlockedData({
+          downloadUrl: data.downloadUrl,
+          fileName: data.fileName,
+          expiresInMinutes: data.expiresInMinutes || 15,
+        });
+
+        // Auto trigger download
+        window.location.href = data.downloadUrl;
+      } catch {
+        setError("Network error. Please try again.");
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [item.id]
+  );
+
+  // Auto-unlock if ?pass=... query param is provided in URL
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const searchParams = new URLSearchParams(window.location.search);
+      const urlPass = searchParams.get("pass");
+      if (urlPass) {
+        setPassword(urlPass);
+        verifyPasscode(urlPass);
+      }
+    }
+  }, [verifyPasscode]);
+
   const handleVerify = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!password.trim()) {
       setError("Please type your access passcode.");
       return;
     }
+    verifyPasscode(password);
+  };
 
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      const res = await fetch("/api/verify", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          id: item.id,
-          password: password.trim(),
-        }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok || !data.success) {
-        setError(data.error || "Incorrect passcode. Please try again.");
-        if (data.hint) {
-          setHint(data.hint);
-        }
-        setIsLoading(false);
-        return;
-      }
-
-      setUnlockedData({
-        downloadUrl: data.downloadUrl,
-        fileName: data.fileName,
-        expiresInMinutes: data.expiresInMinutes || 15,
-      });
-
-      // Auto trigger download
-      window.location.href = data.downloadUrl;
-    } catch {
-      setError("Network error. Please try again.");
-    } finally {
-      setIsLoading(false);
-    }
+  const handleCopyDirectLink = () => {
+    const url = `${window.location.origin}/d/${item.id}`;
+    navigator.clipboard.writeText(url);
+    setCopiedLink(true);
+    setTimeout(() => setCopiedLink(false), 2000);
   };
 
   return (
@@ -107,7 +135,7 @@ export default function DirectDownloadClient({ item }: DirectDownloadClientProps
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-72 bg-gradient-to-b from-emerald-500/10 to-transparent blur-3xl pointer-events-none -z-10" />
 
       {/* Back button */}
-      <div className="w-full max-w-lg mb-6">
+      <div className="w-full max-w-lg mb-6 flex items-center justify-between">
         <Link
           href="/"
           className="inline-flex items-center gap-2 text-xs font-medium text-zinc-400 hover:text-white transition-colors"
@@ -115,6 +143,16 @@ export default function DirectDownloadClient({ item }: DirectDownloadClientProps
           <ArrowLeft className="w-4 h-4" />
           <span>Back to All Downloads</span>
         </Link>
+
+        {item.fileType === "installer" && (
+          <Link
+            href="/installer"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-400 hover:text-emerald-300 transition-colors"
+          >
+            <Download className="w-3.5 h-3.5" />
+            <span>Open Direct Installer Page</span>
+          </Link>
+        )}
       </div>
 
       <div className="w-full max-w-lg bg-zinc-900 border border-zinc-800 rounded-3xl p-7 sm:p-9 shadow-2xl relative overflow-hidden">
@@ -228,6 +266,26 @@ export default function DirectDownloadClient({ item }: DirectDownloadClientProps
                     )}
                   </button>
                 </form>
+
+                <div className="mt-4 pt-4 border-t border-zinc-800 flex items-center justify-between text-xs text-zinc-500">
+                  <span>Share link with recipient</span>
+                  <button
+                    onClick={handleCopyDirectLink}
+                    className="flex items-center gap-1 hover:text-white transition-colors"
+                  >
+                    {copiedLink ? (
+                      <>
+                        <Check className="w-3.5 h-3.5 text-emerald-400" />
+                        <span className="text-emerald-400">Copied!</span>
+                      </>
+                    ) : (
+                      <>
+                        <Share2 className="w-3.5 h-3.5" />
+                        <span>Copy Share URL</span>
+                      </>
+                    )}
+                  </button>
+                </div>
               </div>
             )}
           </div>

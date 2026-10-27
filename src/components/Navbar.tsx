@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ShieldCheck, Lock, ExternalLink, Settings } from "lucide-react";
+import { ShieldCheck, Lock, Download, Settings, Sparkles } from "lucide-react";
 
 export default function Navbar() {
   return (
@@ -30,29 +30,28 @@ export default function Navbar() {
         </Link>
 
         {/* Right side navigation */}
-        <div className="flex items-center gap-3">
-          <div className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-900/60 border border-zinc-800 text-xs text-zinc-400">
+        <div className="flex items-center gap-2.5">
+          {/* Direct Installer Download Link in Navbar */}
+          <Link
+            href="/installer"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-xs font-semibold text-emerald-300 shadow-sm transition-all hover:scale-105"
+          >
+            <Download className="w-3.5 h-3.5 text-emerald-400 animate-pulse" />
+            <span>Download Installer</span>
+          </Link>
+
+          <div className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-900/60 border border-zinc-800 text-xs text-zinc-400">
             <ShieldCheck className="w-4 h-4 text-emerald-400" />
-            <span>Time-Signed SHA-256 Tokens</span>
+            <span>Time-Signed Tokens</span>
           </div>
 
           <Link
             href="/admin"
-            className="flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 hover:border-zinc-700 text-xs font-medium text-zinc-200 transition-all"
+            className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 hover:border-zinc-700 text-xs font-medium text-zinc-200 transition-all"
           >
             <Settings className="w-3.5 h-3.5 text-zinc-400" />
-            <span>Admin Vault</span>
+            <span>Admin</span>
           </Link>
-
-          <a
-            href="https://vercel.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-medium shadow-md shadow-emerald-600/20 transition-all"
-          >
-            <span>Deploy on Vercel</span>
-            <ExternalLink className="w-3.5 h-3.5" />
-          </a>
         </div>
       </div>
     </header>
