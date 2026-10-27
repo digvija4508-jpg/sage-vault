@@ -127,10 +127,11 @@ export default function VaultClient({ initialItems }: VaultClientProps) {
             </div>
             <div className="min-w-0">
               <div className="flex items-center gap-2 flex-wrap">
-                <span className="text-white font-semibold text-xs sm:text-sm">Overwork Setup Installer (v1.0)</span>
-                <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-300">234.9 MB</span>
+                <span className="text-white font-semibold text-xs sm:text-sm">Overwork Desktop Workbench (v0.2.0)</span>
+                <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-300">120 MB .exe</span>
+                <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-cyan-500/20 text-cyan-300">167 MB .zip</span>
               </div>
-              <p className="text-[11px] text-zinc-400 mt-0.5 truncate">Obsidian-Indigo setup wizard with live environment diagnostics.</p>
+              <p className="text-[11px] text-zinc-400 mt-0.5 truncate">Standalone NSIS installer & zero-install portable package for Windows 10/11.</p>
             </div>
           </div>
           <div className="flex items-center gap-2 w-full sm:w-auto shrink-0">

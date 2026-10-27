@@ -1,16 +1,32 @@
 [
   {
     "id": "overwork-setup-installer",
-    "title": "Overwork Aesthetic Setup Installer (v1.0)",
-    "description": "Bespoke desktop setup wizard with Obsidian-Indigo glassmorphic design (#080b14 canvas), live environment diagnostics, and automated workspace provisioning.",
+    "title": "Overwork Standalone Setup Installer (v0.2.0)",
+    "description": "Self-contained NSIS Windows installer for the Overwork Multi-Agent Workbench. Includes all Electron runtime binaries, node-pty terminal integration, and automated desktop shortcuts.",
     "category": "Software",
-    "fileName": "Overwork Setup.exe",
-    "fileSize": "234.9 MB",
+    "fileName": "Overwork-Setup-0.2.0.exe",
+    "fileSize": "120.6 MB",
     "fileType": "installer",
     "password": "overwork-pass-2026",
     "hint": "Default access passcode: overwork-pass-2026",
     "storageType": "external",
-    "targetUrl": "https://github.com/digvija4508-jpg/sage-vault/releases/download/v1.0/Overwork.Setup.exe",
+    "targetUrl": "https://github.com/digvija4508-jpg/sage-vault/releases/download/v1.1/Overwork.Setup.0.2.0.exe",
+    "createdAt": "2026-10-27",
+    "expiresAt": null,
+    "isFeatured": true
+  },
+  {
+    "id": "overwork-portable-zip",
+    "title": "Overwork Portable Standalone Package (v0.2.0)",
+    "description": "Zero-install portable edition. Unzip and double-click Overwork.exe to run immediately on any Windows 10/11 laptop without administrator permissions.",
+    "category": "Software",
+    "fileName": "Overwork-Portable-v0.2.0.zip",
+    "fileSize": "167.7 MB",
+    "fileType": "zip",
+    "password": "overwork-pass-2026",
+    "hint": "Default access passcode: overwork-pass-2026",
+    "storageType": "external",
+    "targetUrl": "https://github.com/digvija4508-jpg/sage-vault/releases/download/v1.1/Overwork-Portable-v0.2.0.zip",
     "createdAt": "2026-10-27",
     "expiresAt": null,
     "isFeatured": true
@@ -29,7 +45,7 @@
     "targetUrl": "confidential-audit-report.txt",
     "createdAt": "2026-10-25",
     "expiresAt": null,
-    "isFeatured": true
+    "isFeatured": false
   },
   {
     "id": "project-alpha-assets",
@@ -45,7 +61,7 @@
     "targetUrl": "project-alpha-assets.zip",
     "createdAt": "2026-10-26",
     "expiresAt": null,
-    "isFeatured": true
+    "isFeatured": false
   },
   {
     "id": "sage-runtime-v2",
@@ -60,22 +76,6 @@
     "storageType": "local",
     "targetUrl": "release-notes-v2.txt",
     "createdAt": "2026-10-27",
-    "expiresAt": null,
-    "isFeatured": false
-  },
-  {
-    "id": "enterprise-cloud-installer",
-    "title": "Enterprise Cloud Sync Daemon (macOS / Linux)",
-    "description": "High-throughput binary installer for client synchronization clusters. (Hosted on Cloud Storage)",
-    "category": "Software",
-    "fileName": "cloud-sync-daemon-v2.4.tar.gz",
-    "fileSize": "142 MB",
-    "fileType": "installer",
-    "password": "daemon-pro-key",
-    "hint": "Enterprise license key required",
-    "storageType": "external",
-    "targetUrl": "https://github.com/git/git/archive/refs/tags/v2.40.0.tar.gz",
-    "createdAt": "2026-10-20",
     "expiresAt": null,
     "isFeatured": false
   }

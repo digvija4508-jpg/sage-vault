@@ -13,20 +13,31 @@ import {
   Layers,
   ArrowLeft,
   Sparkles,
-  ExternalLink,
+  Archive,
+  CheckCircle2,
 } from "lucide-react";
 
 export default function InstallerPage() {
-  const [copied, setCopied] = useState(false);
+  const [copiedExe, setCopiedExe] = useState(false);
+  const [copiedZip, setCopiedZip] = useState(false);
 
-  const directApiUrl = typeof window !== "undefined"
+  const directExeUrl = typeof window !== "undefined"
     ? `${window.location.origin}/api/installer`
     : "/api/installer";
 
-  const handleCopyLink = () => {
-    navigator.clipboard.writeText(directApiUrl);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  const directZipUrl = typeof window !== "undefined"
+    ? `${window.location.origin}/api/installer?type=portable`
+    : "/api/installer?type=portable";
+
+  const handleCopy = (text: string, isZip = false) => {
+    navigator.clipboard.writeText(text);
+    if (isZip) {
+      setCopiedZip(true);
+      setTimeout(() => setCopiedZip(false), 2000);
+    } else {
+      setCopiedExe(true);
+      setTimeout(() => setCopiedExe(false), 2000);
+    }
   };
 
   return (
@@ -48,67 +59,72 @@ export default function InstallerPage() {
 
         {/* Main Installer Spotlight Card */}
         <div className="relative rounded-3xl bg-zinc-900/60 border border-zinc-800/80 p-8 sm:p-12 shadow-2xl backdrop-blur-xl overflow-hidden">
-          {/* Subtle top rainbow border */}
+          {/* Top rainbow border */}
           <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-emerald-500 via-teal-400 to-indigo-500" />
 
           <div className="max-w-3xl">
             {/* Version badge */}
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold mb-6">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>Official Release • Version 1.0</span>
+              <span>Official Release • Version 0.2.0 • Fixed Standalone</span>
             </div>
 
             <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight">
-              Overwork Setup Installer
+              Overwork Multi-Agent Workbench
             </h1>
 
             <p className="mt-4 text-sm sm:text-base text-zinc-400 leading-relaxed">
-              A bespoke setup wizard designed with the Obsidian-Indigo glassmorphic design system. Features live environment diagnostics, automated workspace provisioning, and integrated live terminal logs.
+              Standalone desktop application with full multi-agent orchestration, integrated ConPTY terminal, and Obsidian-Indigo glassmorphic UI. Packaged with all runtime binaries to run on any Windows laptop without crashing.
             </p>
 
             {/* Big Action Buttons */}
             <div className="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+              {/* Option 1: Standalone NSIS Installer */}
               <a
                 href="/api/installer"
-                download="Overwork Setup.exe"
-                className="flex items-center justify-center gap-2.5 px-8 py-4 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-sm sm:text-base shadow-xl shadow-emerald-600/30 transition-all hover:scale-[1.02] active:scale-[0.98]"
+                download="Overwork-Setup-0.2.0.exe"
+                className="flex items-center justify-center gap-2.5 px-7 py-4 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-sm sm:text-base shadow-xl shadow-emerald-600/30 transition-all hover:scale-[1.02] active:scale-[0.98]"
               >
                 <Download className="w-5 h-5" />
-                <span>Direct Download Installer (.exe)</span>
+                <span>Download Installer (.exe - 120 MB)</span>
               </a>
 
-              <button
-                type="button"
-                onClick={handleCopyLink}
-                className="flex items-center justify-center gap-2 px-5 py-4 rounded-2xl bg-zinc-800/80 hover:bg-zinc-800 border border-zinc-700 text-xs sm:text-sm font-semibold text-zinc-200 hover:text-white transition-all"
+              {/* Option 2: Portable Standalone Zip */}
+              <a
+                href="/api/installer?type=portable"
+                download="Overwork-Portable-v0.2.0.zip"
+                className="flex items-center justify-center gap-2.5 px-6 py-4 rounded-2xl bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-xs sm:text-sm font-semibold text-zinc-100 hover:text-white transition-all hover:scale-[1.02]"
               >
-                {copied ? (
-                  <>
-                    <Check className="w-4 h-4 text-emerald-400" />
-                    <span className="text-emerald-400">Direct Link Copied!</span>
-                  </>
-                ) : (
-                  <>
-                    <Copy className="w-4 h-4 text-zinc-400" />
-                    <span>Copy Direct Download Link</span>
-                  </>
-                )}
-              </button>
+                <Archive className="w-4 h-4 text-cyan-400" />
+                <span>Download Portable (.zip - 167 MB)</span>
+              </a>
             </div>
 
-            {/* Direct URL display pill */}
-            <div className="mt-5 p-3 rounded-xl bg-zinc-950/80 border border-zinc-800/90 flex items-center justify-between gap-3 text-xs">
-              <span className="text-zinc-500 shrink-0 font-medium">Direct Link:</span>
-              <code className="text-emerald-400 font-mono text-[11px] truncate select-all">
-                {directApiUrl}
-              </code>
-              <button
-                onClick={handleCopyLink}
-                className="p-1 text-zinc-400 hover:text-white shrink-0"
-                title="Copy link"
-              >
-                <Copy className="w-3.5 h-3.5" />
-              </button>
+            {/* Direct Links Pill Grid */}
+            <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+              <div className="p-3 rounded-xl bg-zinc-950/80 border border-zinc-800/90 flex items-center justify-between gap-2">
+                <span className="text-zinc-500 font-medium shrink-0">Installer Link:</span>
+                <code className="text-emerald-400 font-mono text-[11px] truncate">{directExeUrl}</code>
+                <button
+                  onClick={() => handleCopy(directExeUrl, false)}
+                  className="p-1 text-zinc-400 hover:text-white shrink-0"
+                  title="Copy link"
+                >
+                  {copiedExe ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                </button>
+              </div>
+
+              <div className="p-3 rounded-xl bg-zinc-950/80 border border-zinc-800/90 flex items-center justify-between gap-2">
+                <span className="text-zinc-500 font-medium shrink-0">Portable Link:</span>
+                <code className="text-cyan-400 font-mono text-[11px] truncate">{directZipUrl}</code>
+                <button
+                  onClick={() => handleCopy(directZipUrl, true)}
+                  className="p-1 text-zinc-400 hover:text-white shrink-0"
+                  title="Copy link"
+                >
+                  {copiedZip ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                </button>
+              </div>
             </div>
           </div>
 
@@ -117,9 +133,9 @@ export default function InstallerPage() {
             <div className="p-4 rounded-2xl bg-zinc-950/60 border border-zinc-800/60">
               <span className="text-zinc-500 flex items-center gap-1.5 mb-1">
                 <HardDrive className="w-3.5 h-3.5 text-zinc-400" />
-                File Size
+                Installer Size
               </span>
-              <span className="text-white font-semibold text-sm">234.9 MB</span>
+              <span className="text-white font-semibold text-sm">120.6 MB</span>
             </div>
 
             <div className="p-4 rounded-2xl bg-zinc-950/60 border border-zinc-800/60">
@@ -133,9 +149,9 @@ export default function InstallerPage() {
             <div className="p-4 rounded-2xl bg-zinc-950/60 border border-zinc-800/60">
               <span className="text-zinc-500 flex items-center gap-1.5 mb-1">
                 <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-                SHA-256
+                Integrity
               </span>
-              <span className="text-white font-semibold text-sm">Verified Release</span>
+              <span className="text-white font-semibold text-sm">NSIS Verified</span>
             </div>
 
             <div className="p-4 rounded-2xl bg-zinc-950/60 border border-zinc-800/60">
@@ -143,22 +159,31 @@ export default function InstallerPage() {
                 <Layers className="w-3.5 h-3.5 text-indigo-400" />
                 Distribution
               </span>
-              <span className="text-white font-semibold text-sm">Global CDN</span>
+              <span className="text-white font-semibold text-sm">Global GitHub CDN</span>
             </div>
           </div>
 
-          {/* Installation Instructions */}
-          <div className="mt-8 p-5 rounded-2xl bg-zinc-950/40 border border-zinc-800/60">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-300 flex items-center gap-2 mb-3">
-              <Terminal className="w-4 h-4 text-emerald-400" />
-              Quick Setup Instructions
-            </h3>
-            <ol className="text-xs text-zinc-400 space-y-2 list-decimal list-inside leading-relaxed">
-              <li>Click the green <strong className="text-white">Direct Download Installer</strong> button above.</li>
-              <li>Once downloaded, locate <code className="text-emerald-400 bg-zinc-900 px-1 py-0.5 rounded">Overwork Setup.exe</code> in your Downloads folder.</li>
-              <li>Double-click the installer to start the Obsidian-Indigo setup wizard.</li>
-              <li>Follow the on-screen steps to provision your workbench environment automatically.</li>
-            </ol>
+          {/* Instructions */}
+          <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="p-5 rounded-2xl bg-zinc-950/40 border border-zinc-800/60">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-2 mb-2">
+                <CheckCircle2 className="w-4 h-4" />
+                Option A: Standalone Setup (.exe)
+              </h3>
+              <p className="text-xs text-zinc-400 leading-relaxed">
+                Click <strong className="text-white">Download Installer</strong>. Run the downloaded <code className="text-emerald-400">Overwork-Setup-0.2.0.exe</code>. It self-extracts all assets and creates a shortcut on your desktop.
+              </p>
+            </div>
+
+            <div className="p-5 rounded-2xl bg-zinc-950/40 border border-zinc-800/60">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-2 mb-2">
+                <Archive className="w-4 h-4" />
+                Option B: Portable Standalone (.zip)
+              </h3>
+              <p className="text-xs text-zinc-400 leading-relaxed">
+                Click <strong className="text-white">Download Portable</strong>. Unzip <code className="text-cyan-400">Overwork-Portable-v0.2.0.zip</code> anywhere, then double-click <code className="text-white">Overwork.exe</code> to run immediately without installation.
+              </p>
+            </div>
           </div>
         </div>
       </div>
