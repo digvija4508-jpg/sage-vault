@@ -1,0 +1,4 @@
+storage/downloads/*.exe
+storage/downloads/*.zip
+scratch/
+.git
