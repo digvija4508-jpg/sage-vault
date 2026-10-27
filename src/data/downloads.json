@@ -1,5 +1,21 @@
 [
   {
+    "id": "overwork-setup-installer",
+    "title": "Overwork Aesthetic Setup Installer (v1.0)",
+    "description": "Bespoke desktop setup wizard with Obsidian-Indigo glassmorphic design (#080b14 canvas), live environment diagnostics, and automated workspace provisioning.",
+    "category": "Software",
+    "fileName": "Overwork Setup.exe",
+    "fileSize": "234.9 MB",
+    "fileType": "installer",
+    "password": "overwork-pass-2026",
+    "hint": "Default access passcode: overwork-pass-2026",
+    "storageType": "local",
+    "targetUrl": "Overwork Setup.exe",
+    "createdAt": "2026-10-27",
+    "expiresAt": null,
+    "isFeatured": true
+  },
+  {
     "id": "confidential-q3-audit",
     "title": "Q3 Financial Audit & Compliance Report",
     "description": "Certified quarterly audit, tax compliance summary, and executive financial ledger.",

@@ -160,7 +160,7 @@ export default function VaultClient({ initialItems }: VaultClientProps) {
           )}
 
           <p className="mt-2 text-[11px] text-zinc-500">
-            Try demo pass: <code className="text-zinc-400 bg-zinc-900 px-1.5 py-0.5 rounded border border-zinc-800">audit-pass-2026</code> or <code className="text-zinc-400 bg-zinc-900 px-1.5 py-0.5 rounded border border-zinc-800">alpha-vault-99</code>
+            Try demo pass: <code className="text-zinc-400 bg-zinc-900 px-1.5 py-0.5 rounded border border-zinc-800">overwork-pass-2026</code> or <code className="text-zinc-400 bg-zinc-900 px-1.5 py-0.5 rounded border border-zinc-800">alpha-vault-99</code>
           </p>
         </div>
       </section>
