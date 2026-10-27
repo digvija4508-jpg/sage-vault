@@ -74,19 +74,19 @@ export default function InstallerPage() {
             </h1>
 
             <p className="mt-4 text-sm sm:text-base text-zinc-400 leading-relaxed">
-              Standalone desktop application with full multi-agent orchestration, integrated ConPTY terminal, and Obsidian-Indigo glassmorphic UI. Packaged with all runtime binaries to run on any Windows laptop without crashing.
+              Standalone desktop application with full multi-agent orchestration, integrated ConPTY terminal, and Obsidian-Indigo glassmorphic UI. Packaged with a VS Code-style guided Windows Setup Wizard that runs cleanly on any laptop.
             </p>
 
             {/* Big Action Buttons */}
             <div className="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
-              {/* Option 1: Standalone NSIS Installer */}
+              {/* Option 1: Standalone Windows Setup Wizard */}
               <a
                 href="/api/installer"
                 download="Overwork-Setup-0.2.0.exe"
                 className="flex items-center justify-center gap-2.5 px-7 py-4 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-sm sm:text-base shadow-xl shadow-emerald-600/30 transition-all hover:scale-[1.02] active:scale-[0.98]"
               >
                 <Download className="w-5 h-5" />
-                <span>Download Installer (.exe - 120 MB)</span>
+                <span>Download Setup Wizard (.exe - 118 MB)</span>
               </a>
 
               {/* Option 2: Portable Standalone Zip */}
@@ -135,7 +135,7 @@ export default function InstallerPage() {
                 <HardDrive className="w-3.5 h-3.5 text-zinc-400" />
                 Installer Size
               </span>
-              <span className="text-white font-semibold text-sm">120.6 MB</span>
+              <span className="text-white font-semibold text-sm">118.5 MB</span>
             </div>
 
             <div className="p-4 rounded-2xl bg-zinc-950/60 border border-zinc-800/60">
@@ -151,7 +151,7 @@ export default function InstallerPage() {
                 <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
                 Integrity
               </span>
-              <span className="text-white font-semibold text-sm">NSIS Verified</span>
+              <span className="text-white font-semibold text-sm">Inno Setup Wizard</span>
             </div>
 
             <div className="p-4 rounded-2xl bg-zinc-950/60 border border-zinc-800/60">
