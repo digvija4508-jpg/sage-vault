@@ -13,31 +13,21 @@ import {
   Layers,
   ArrowLeft,
   Sparkles,
-  Archive,
   CheckCircle2,
+  Zap,
 } from "lucide-react";
 
 export default function InstallerPage() {
   const [copiedExe, setCopiedExe] = useState(false);
-  const [copiedZip, setCopiedZip] = useState(false);
 
   const directExeUrl = typeof window !== "undefined"
     ? `${window.location.origin}/api/installer`
     : "/api/installer";
 
-  const directZipUrl = typeof window !== "undefined"
-    ? `${window.location.origin}/api/installer?type=portable`
-    : "/api/installer?type=portable";
-
-  const handleCopy = (text: string, isZip = false) => {
+  const handleCopy = (text: string) => {
     navigator.clipboard.writeText(text);
-    if (isZip) {
-      setCopiedZip(true);
-      setTimeout(() => setCopiedZip(false), 2000);
-    } else {
-      setCopiedExe(true);
-      setTimeout(() => setCopiedExe(false), 2000);
-    }
+    setCopiedExe(true);
+    setTimeout(() => setCopiedExe(false), 2000);
   };
 
   return (
@@ -66,7 +56,7 @@ export default function InstallerPage() {
             {/* Version badge */}
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold mb-6">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>Official Release • Version 0.2.0 • Fixed Standalone</span>
+              <span>Official Release • Version 0.2.0 • Bundled OpenCode & KiloCode</span>
             </div>
 
             <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight">
@@ -74,55 +64,33 @@ export default function InstallerPage() {
             </h1>
 
             <p className="mt-4 text-sm sm:text-base text-zinc-400 leading-relaxed">
-              Standalone desktop application with full multi-agent orchestration, integrated ConPTY terminal, and Obsidian-Indigo glassmorphic UI. Packaged with a VS Code-style guided Windows Setup Wizard that runs cleanly on any laptop.
+              Standalone desktop application with full multi-agent orchestration, integrated ConPTY terminal, and Obsidian-Indigo glassmorphic UI. Packaged with a VS Code-style guided Windows Setup Wizard with pre-bundled OpenCode and KiloCode CLI agents that runs cleanly on any laptop.
             </p>
 
             {/* Big Action Buttons */}
             <div className="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
-              {/* Option 1: Standalone Windows Setup Wizard */}
+              {/* Standalone Windows Setup Wizard */}
               <a
                 href="/api/installer"
                 download="Overwork-Setup-0.2.0.exe"
-                className="flex items-center justify-center gap-2.5 px-7 py-4 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-sm sm:text-base shadow-xl shadow-emerald-600/30 transition-all hover:scale-[1.02] active:scale-[0.98]"
+                className="flex items-center justify-center gap-2.5 px-8 py-4 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-sm sm:text-base shadow-xl shadow-emerald-600/30 transition-all hover:scale-[1.02] active:scale-[0.98]"
               >
                 <Download className="w-5 h-5" />
-                <span>Download Setup Wizard (.exe - 118 MB)</span>
-              </a>
-
-              {/* Option 2: Portable Standalone Zip */}
-              <a
-                href="/api/installer?type=portable"
-                download="Overwork-Portable-v0.2.0.zip"
-                className="flex items-center justify-center gap-2.5 px-6 py-4 rounded-2xl bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-xs sm:text-sm font-semibold text-zinc-100 hover:text-white transition-all hover:scale-[1.02]"
-              >
-                <Archive className="w-4 h-4 text-cyan-400" />
-                <span>Download Portable (.zip - 167 MB)</span>
+                <span>Download Setup Wizard (.exe)</span>
               </a>
             </div>
 
-            {/* Direct Links Pill Grid */}
-            <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-              <div className="p-3 rounded-xl bg-zinc-950/80 border border-zinc-800/90 flex items-center justify-between gap-2">
-                <span className="text-zinc-500 font-medium shrink-0">Installer Link:</span>
+            {/* Direct Link Pill */}
+            <div className="mt-6 text-xs max-w-xl">
+              <div className="p-3.5 rounded-xl bg-zinc-950/80 border border-zinc-800/90 flex items-center justify-between gap-3">
+                <span className="text-zinc-500 font-medium shrink-0">Direct Installer Link:</span>
                 <code className="text-emerald-400 font-mono text-[11px] truncate">{directExeUrl}</code>
                 <button
-                  onClick={() => handleCopy(directExeUrl, false)}
-                  className="p-1 text-zinc-400 hover:text-white shrink-0"
+                  onClick={() => handleCopy(directExeUrl)}
+                  className="p-1.5 text-zinc-400 hover:text-white shrink-0 bg-zinc-800/60 rounded-lg hover:bg-zinc-800 transition-colors"
                   title="Copy link"
                 >
-                  {copiedExe ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
-                </button>
-              </div>
-
-              <div className="p-3 rounded-xl bg-zinc-950/80 border border-zinc-800/90 flex items-center justify-between gap-2">
-                <span className="text-zinc-500 font-medium shrink-0">Portable Link:</span>
-                <code className="text-cyan-400 font-mono text-[11px] truncate">{directZipUrl}</code>
-                <button
-                  onClick={() => handleCopy(directZipUrl, true)}
-                  className="p-1 text-zinc-400 hover:text-white shrink-0"
-                  title="Copy link"
-                >
-                  {copiedZip ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                  {copiedExe ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
                 </button>
               </div>
             </div>
@@ -133,9 +101,9 @@ export default function InstallerPage() {
             <div className="p-4 rounded-2xl bg-zinc-950/60 border border-zinc-800/60">
               <span className="text-zinc-500 flex items-center gap-1.5 mb-1">
                 <HardDrive className="w-3.5 h-3.5 text-zinc-400" />
-                Installer Size
+                Installer Type
               </span>
-              <span className="text-white font-semibold text-sm">118.5 MB</span>
+              <span className="text-white font-semibold text-sm">Windows Setup Wizard</span>
             </div>
 
             <div className="p-4 rounded-2xl bg-zinc-950/60 border border-zinc-800/60">
@@ -148,10 +116,18 @@ export default function InstallerPage() {
 
             <div className="p-4 rounded-2xl bg-zinc-950/60 border border-zinc-800/60">
               <span className="text-zinc-500 flex items-center gap-1.5 mb-1">
+                <Terminal className="w-3.5 h-3.5 text-cyan-400" />
+                Bundled Agents
+              </span>
+              <span className="text-white font-semibold text-sm">OpenCode & KiloCode</span>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-zinc-950/60 border border-zinc-800/60">
+              <span className="text-zinc-500 flex items-center gap-1.5 mb-1">
                 <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
                 Integrity
               </span>
-              <span className="text-white font-semibold text-sm">Inno Setup Wizard</span>
+              <span className="text-white font-semibold text-sm">Inno Setup Verified</span>
             </div>
 
             <div className="p-4 rounded-2xl bg-zinc-950/60 border border-zinc-800/60">
@@ -168,20 +144,20 @@ export default function InstallerPage() {
             <div className="p-5 rounded-2xl bg-zinc-950/40 border border-zinc-800/60">
               <h3 className="text-xs font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-2 mb-2">
                 <CheckCircle2 className="w-4 h-4" />
-                Option A: Standalone Setup (.exe)
+                Step 1: Run Windows Setup Wizard
               </h3>
               <p className="text-xs text-zinc-400 leading-relaxed">
-                Click <strong className="text-white">Download Installer</strong>. Run the downloaded <code className="text-emerald-400">Overwork-Setup-0.2.0.exe</code>. It self-extracts all assets and creates a shortcut on your desktop.
+                Click <strong className="text-white">Download Setup Wizard (.exe)</strong>. Run <code className="text-emerald-400 font-mono">Overwork-Setup-0.2.0.exe</code>. Follow the guided prompts to install Overwork directly into your user apps folder.
               </p>
             </div>
 
             <div className="p-5 rounded-2xl bg-zinc-950/40 border border-zinc-800/60">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-2 mb-2">
-                <Archive className="w-4 h-4" />
-                Option B: Portable Standalone (.zip)
+              <h3 className="text-xs font-bold uppercase tracking-wider text-teal-400 flex items-center gap-2 mb-2">
+                <Zap className="w-4 h-4" />
+                Step 2: Autonomous Agents Included
               </h3>
               <p className="text-xs text-zinc-400 leading-relaxed">
-                Click <strong className="text-white">Download Portable</strong>. Unzip <code className="text-cyan-400">Overwork-Portable-v0.2.0.zip</code> anywhere, then double-click <code className="text-white">Overwork.exe</code> to run immediately without installation.
+                <code className="text-teal-300 font-mono">opencode</code> and <code className="text-teal-300 font-mono">kilocode</code> are installed directly to your system and added to your user PATH. Open Overwork or any terminal to run autonomous agent workflows out of the box.
               </p>
             </div>
           </div>
