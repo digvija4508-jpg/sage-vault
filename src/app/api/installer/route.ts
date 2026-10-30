@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const INSTALLER_URL =
-  "https://github.com/digvija4508-jpg/sage-vault/releases/download/v1.5/Overwork-Setup-0.2.0.exe";
+  "https://github.com/digvija4508-jpg/sage-vault/releases/download/v1.6/Overwork-Setup-0.2.0.exe";
 
 export async function GET(_request: NextRequest) {
   const fileName = "Overwork-Setup-0.2.0.exe";
