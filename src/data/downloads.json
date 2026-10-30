@@ -5,7 +5,7 @@
     "description": "Visual Studio Code-style Windows Setup Wizard. Installs the Overwork Multi-Agent Workbench with automated background OpenCode and KiloCode CLI agent setup, OpenCode GLM 5.3 Flash intelligence engine, and zero-dependency standalone backend runtime.",
     "category": "Software",
     "fileName": "Overwork-Setup-0.2.0.exe",
-    "fileSize": "208 MB",
+    "fileSize": "218 MB",
     "fileType": "installer",
     "password": "overwork-pass-2026",
     "hint": "Demo access passcode: overwork-pass-2026",

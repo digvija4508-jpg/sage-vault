@@ -128,10 +128,11 @@ export default function VaultClient({ initialItems }: VaultClientProps) {
             <div className="min-w-0">
               <div className="flex items-center gap-2 flex-wrap">
                 <span className="text-white font-semibold text-xs sm:text-sm">Overwork Desktop Workbench (v0.2.0)</span>
-                <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-300">120 MB .exe</span>
-                <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-cyan-500/20 text-cyan-300">167 MB .zip</span>
+                <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-300">Windows Setup Wizard (.exe)</span>
+                <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-cyan-500/20 text-cyan-300">218 MB</span>
+                <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-indigo-500/20 text-indigo-300">GLM 5.3 Flash</span>
               </div>
-              <p className="text-[11px] text-zinc-400 mt-0.5 truncate">Standalone NSIS installer & zero-install portable package for Windows 10/11.</p>
+              <p className="text-[11px] text-zinc-400 mt-0.5 truncate">Full autonomous multi-agent workbench with automated background OpenCode &amp; KiloCode setup.</p>
             </div>
           </div>
           <div className="flex items-center gap-2 w-full sm:w-auto shrink-0">
