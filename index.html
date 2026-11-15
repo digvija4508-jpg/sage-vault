@@ -47,6 +47,7 @@
 <link rel="stylesheet" href="assets/ui/toggles/fragment.css">
 <link rel="stylesheet" href="assets/ui/checklist/fragment.css">
 <link rel="stylesheet" href="assets/ui/notify/fragment.css">
+<link rel="stylesheet" href="assets/home-demo.css">
 <script>document.documentElement.classList.add('m-enter');setTimeout(()=>document.documentElement.classList.add('m-enter-done'),700)</script>
 <script src="assets/backgrounds/backgrounds.js"></script>
 <script>document.documentElement.classList.add('mo-js');setTimeout(()=>document.documentElement.classList.add('mo-safe'),2500)</script>
@@ -157,6 +158,7 @@ html .ui-pause.loop-pause:focus-visible { outline: 2px solid #161c1a; outline-of
           </div>
         </div>
       </div>
+      <div class="nav__item"><a class="nav__link" href="#home">Home</a></div>
       <div class="nav__item"><a class="nav__link" href="#features">Features</a></div>
       <div class="nav__item"><a class="nav__link" href="#automations">Automations</a></div>
       <div class="nav__item"><a class="nav__link" href="#install">Install</a></div>
@@ -173,7 +175,7 @@ html .ui-pause.loop-pause:focus-visible { outline: 2px solid #161c1a; outline-of
   <section class="hero hero--centred" data-enter aria-labelledby="hero-h">
     <div class="wrap"><div class="hero-text">
       <div class="hero__c">
-        <a class="pill" href="#install"><span>Version 0.2.0</span><span class="muted">See what the installer adds</span></a>
+        <a class="pill" href="#home"><span>New in 0.2.0</span><span class="muted">Home: ask in plain words</span></a>
         <h1 id="hero-h" aria-label="Coding agents for Windows">Coding agents for Windows</h1>
         <p class="hero__lead">Overwork runs coding agents on free Kilo and OpenCode models, with its own browser, Office writers and research. One 421 MB installer brings the app, Node and both agents.</p>
         <div class="btn-row"><a class="btn btn--primary" href="https://github.com/digvija4508-jpg/sage-vault/releases/latest/download/Overwork-Setup-0.2.0.exe">Download for Windows</a><a class="btn btn--secondary" href="#app">See an agent at work</a></div>
@@ -201,6 +203,60 @@ html .ui-pause.loop-pause:focus-visible { outline: 2px solid #161c1a; outline-of
         </div>
       </div>
     </div></div>
+  </section>
+
+  <section class="section" id="home" aria-labelledby="home-h">
+    <div class="wrap">
+      <div class="grid grid--top">
+        <h2 id="home-h" class="span-5">Ask in plain words. Overwork does the rest.</h2>
+        <p class="span-6 start-7">The new Home is a chat for people who do not code. Give it a job and it splits the work between expert helpers that run at the same time, each on the free model that suits its part. You see what every helper is doing, then the finished file. No code or terminals on screen.</p>
+      </div>
+      <div class="d-win d-win--dark hx-win" data-home-demo role="img" aria-label="Overwork Home: three helpers make a pitch deck at the same time">
+        <div class="d-win__bar"><span class="d-win__dots"><i></i><i></i><i></i></span><span><b>Overwork</b> · Home</span><span class="sp"></span><span>New chat</span></div>
+        <div class="d-win__body">
+          <div class="hx">
+            <div class="hx-me">Make a 10-slide pitch deck for opening our bakery's second shop, with real local rents and prices.</div>
+            <div class="hx-bot">
+              <span class="owm" data-state="idle" style="--s:32px" aria-hidden="true">
+                <svg viewBox="0 0 48 48" width="32" height="32">
+                  <defs>
+                    <linearGradient id="hxa" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#38bdf8"/><stop offset=".5" stop-color="#8b5cf6"/><stop offset="1" stop-color="#f59e0b"/></linearGradient>
+                    <linearGradient id="hxb" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#10b981"/><stop offset="1" stop-color="#38bdf8"/></linearGradient>
+                    <linearGradient id="hxc" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#f59e0b"/><stop offset="1" stop-color="#f472b6"/></linearGradient>
+                    <radialGradient id="hxs"><stop offset="0" stop-color="#fff"/><stop offset=".55" stop-color="#e0e7ff"/><stop offset="1" stop-color="#c4b5fd"/></radialGradient>
+                  </defs>
+                  <circle class="owm-track" cx="24" cy="24" r="17"/>
+                  <g class="owm-turn t1"><circle class="owm-arc" cx="24" cy="24" r="17" pathLength="100" stroke="url(#hxa)"/></g>
+                  <g class="owm-turn t2"><circle class="owm-arc" cx="24" cy="24" r="17" pathLength="100" stroke="url(#hxb)"/></g>
+                  <g class="owm-turn t3"><circle class="owm-arc" cx="24" cy="24" r="17" pathLength="100" stroke="url(#hxc)"/></g>
+                  <g class="owm-shine-turn"><circle class="owm-shine" cx="24" cy="24" r="17" pathLength="100"/></g>
+                  <g class="owm-spark-at"><circle class="owm-ripple" cx="24" cy="24" r="3.4"/><circle class="owm-spark" cx="24" cy="24" r="3.4" fill="url(#hxs)"/></g>
+                </svg>
+              </span>
+              <div class="hx-body">
+                <div class="hx-head" data-helpers-head></div>
+                <div class="hx-helpers">
+                  <div class="hx-h" style="--c:#5fd39a"><span class="hx-dot"></span><div><div class="hx-name">Research expert<time>0s</time></div><div class="hx-desc">Rents near the high street</div><div class="hx-doing">Getting started</div></div></div>
+                  <div class="hx-h" style="--c:#8ab4ff"><span class="hx-dot"></span><div><div class="hx-name">Research expert<time>0s</time></div><div class="hx-desc">Local bakery prices</div><div class="hx-doing">Getting started</div></div></div>
+                  <div class="hx-h" style="--c:#f0a6ca"><span class="hx-dot"></span><div><div class="hx-name">Document expert<time>0s</time></div><div class="hx-desc">Designing the deck</div><div class="hx-doing">Getting started</div></div></div>
+                </div>
+                <div class="hx-status" data-status></div>
+                <div class="hx-answer">
+                  <p>Your deck is ready. It makes the case in 10 slides: the site, footfall, rent against expected sales, pricing and a 12-month plan. Every figure links to its source in the notes.</p>
+                  <span class="hx-file"><img src="assets/icons/pptx.svg" alt="">Bakery-Second-Shop.pptx<span>Open</span></span>
+                </div>
+              </div>
+            </div>
+            <div class="hx-input"><span>Ask Overwork to do anything…</span><i aria-hidden="true">↑</i></div>
+          </div>
+        </div>
+      </div>
+      <div class="grid hx-points">
+        <div class="span-4"><h3>Helpers work side by side</h3><p>A research expert, a document expert and a builder can run at the same time, so a big job finishes sooner.</p></div>
+        <div class="span-4"><h3>It picks a model that answers</h3><p>Each helper gets the free model that suits its job. If a model refuses or is busy, Overwork moves to another one.</p></div>
+        <div class="span-4"><h3>Plain answers, real files</h3><p>You get the answer and the file to open. Every step and command is still there in CodeVanta if you want it.</p></div>
+      </div>
+    </div>
   </section>
 
   <section class="section" id="app" aria-labelledby="app-h">
@@ -405,7 +461,7 @@ html .ui-pause.loop-pause:focus-visible { outline: 2px solid #161c1a; outline-of
           </div>
         </div>
         <ul class="rows rows--spec span-6 start-7">
-          <li><span class="rows__name">Overwork</span><p>CodeVanta, Documents, Research and Studio</p><span class="rows__value">0.2.0</span></li>
+          <li><span class="rows__name">Overwork</span><p>Home, CodeVanta, Documents, Research and Studio</p><span class="rows__value">0.2.0</span></li>
           <li><span class="rows__name">Node.js</span><p>Runs the app's own servers</p><span class="rows__value">26.12.1</span></li>
           <li><span class="rows__name">OpenCode</span><p>Agent for OpenCode Zen models</p><span class="rows__value">1.19.3</span></li>
           <li><span class="rows__name">Kilo Code</span><p>Agent for Kilo's free models</p><span class="rows__value">7.8.18</span></li>
@@ -470,5 +526,6 @@ html .ui-pause.loop-pause:focus-visible { outline: 2px solid #161c1a; outline-of
 <script type="module" src="assets/system.js"></script>
 <script type="module" src="assets/motion/motion.js"></script>
 <script type="module" src="assets/layout/layout.js"></script>
+<script type="module" src="assets/home-demo.js"></script>
 </body>
 </html>
