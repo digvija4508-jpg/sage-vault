@@ -1,0 +1,13 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "buildCommand": "",
+  "outputDirectory": ".",
+  "cleanUrls": true,
+  "redirects": [
+    { "source": "/api/installer", "destination": "https://github.com/digvija4508-jpg/sage-vault/releases/latest/download/Overwork-Setup-0.2.0.exe", "permanent": false },
+    { "source": "/installer", "destination": "/#install", "permanent": false },
+    { "source": "/admin", "destination": "/", "permanent": false },
+    { "source": "/d/:id", "destination": "/#install", "permanent": false }
+  ]
+}

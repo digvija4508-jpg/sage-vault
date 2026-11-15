@@ -1,0 +1,474 @@
+<!doctype html>
+<html lang="en" data-type="software" data-radius="sharp" data-ground="sage" data-buttons="tonal" data-motion>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Overwork: an AI coding workbench for Windows developers</title>
+<meta name="description" content="Download Overwork, a Windows app that runs coding agents on free Kilo and OpenCode models, with a browser, Office writers and research built in.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Overwork: an AI coding workbench for Windows developers">
+<meta property="og:description" content="Coding agents on free Kilo and OpenCode models, in one Windows installer.">
+<meta property="og:image" content="share.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#161c1a">
+<!-- <link rel="canonical" href="https://[the client's domain]/"> : no own domain yet (sage-vault-five.vercel.app) -->
+<meta name="site-kind" content="software">
+<meta name="page-type" content="software">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@400..700&family=Figtree:wght@400..600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/system.css">
+<link rel="stylesheet" href="assets/ui/cards.css">
+<link rel="stylesheet" href="assets/motion/motion.css">
+<link rel="stylesheet" href="assets/backgrounds/backgrounds.css">
+<link rel="stylesheet" href="assets/layout/layout.css">
+<link rel="stylesheet" href="assets/icons/icon.css">
+<style>
+:root {
+  --p-bg: #161c1a; --p-surface: #1f2725; --p-ink: #e3e2da; --p-muted: #8e948d;
+  --p-accent: #9fc7b8; --p-accent-ink: #161c1a; --p-action: #9fc7b8; --p-action-ink: #161c1a;
+  --p-inv-bg: #e3e2da; --p-inv-surface: #d3d2cb; --p-inv-ink: #161c1a; --p-inv-muted: #555a55;
+  --p-inv-accent: #161c1a; --p-inv-accent-ink: #e3e2da; --p-inv-action: #161c1a; --p-inv-action-ink: #e3e2da;
+  --font-display: "Gabarito", system-ui, sans-serif;
+  --font-text: "Figtree", system-ui, sans-serif;
+  --font-mono: "DM Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --display-weight: 400;
+  --display-tracking: -0.03em;
+  --display-tracking-xl: -0.04em;
+  --ly-scale: 0.98;
+}
+</style>
+<link rel="stylesheet" href="assets/ui/base.css">
+<link rel="stylesheet" href="assets/ui/window/fragment.css">
+<link rel="stylesheet" href="assets/ui/terminal-run/fragment.css">
+<link rel="stylesheet" href="assets/ui/files/fragment.css">
+<link rel="stylesheet" href="assets/ui/chat/fragment.css">
+<link rel="stylesheet" href="assets/ui/toggles/fragment.css">
+<link rel="stylesheet" href="assets/ui/checklist/fragment.css">
+<link rel="stylesheet" href="assets/ui/notify/fragment.css">
+<script>document.documentElement.classList.add('m-enter');setTimeout(()=>document.documentElement.classList.add('m-enter-done'),700)</script>
+<script src="assets/backgrounds/backgrounds.js"></script>
+<script>document.documentElement.classList.add('mo-js');setTimeout(()=>document.documentElement.classList.add('mo-safe'),2500)</script>
+<link rel="modulepreload" href="assets/moments/moments.js">
+<link rel="modulepreload" href="assets/moments/lib.js">
+<link rel="modulepreload" href="assets/moments/letters-assemble/moment.js">
+<style>
+/* the hero window: its ground when WebGL is not there */
+.hero__window { background:
+  radial-gradient(90% 70% at 18% 110%, #3e5a50 0 38%, transparent 62%),
+  radial-gradient(70% 60% at 88% 0%, #2c3b36 0 30%, transparent 64%),
+  linear-gradient(160deg, #24302c, #1b2321); }
+/* the window piece (its rules live in the kit's demo-only layout/demo.css, so they are carried here) */
+.d-win { border-radius: 8px; overflow: hidden; font: 400 14px/1.4 var(--font-text); }
+.d-win--dark { background: #1a201e; color: #eceee8; box-shadow: 0 0 0 1px rgb(255 255 255 / .08), 0 30px 70px -30px rgb(0 0 0 / .8); }
+.d-win__bar { display: flex; align-items: center; gap: 10px; height: 40px; padding: 0 14px; border-bottom: 1px solid rgb(255 255 255 / .07); font-size: 13px; color: #9aa09a; }
+.d-win__dots { display: flex; gap: 6px; } .d-win__dots i { width: 10px; height: 10px; border-radius: 50%; background: #3a413e; }
+.d-win__body { display: grid; }
+.d-chat { display: grid; gap: 10px; align-content: start; padding: 18px; font-size: 14px; }
+.d-msg { max-width: 78%; padding: 10px 14px; border-radius: 12px; background: rgb(255 255 255 / .07); line-height: 1.45; }
+.d-msg--me { justify-self: end; background: #e3e2da; color: #161c1a; border-bottom-right-radius: 4px; }
+.d-msg--bot { border-bottom-left-radius: 4px; }
+.d-msg small { display: block; margin-top: 4px; font-size: 13px; opacity: .65; }
+.d-tool { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #9aa09a; }
+.d-tool::before { content: ""; width: 14px; height: 14px; border-radius: 50%; border: 2px solid currentColor; border-right-color: transparent; }
+.d-win--dark .d-win__body { grid-template-columns: 270px 1fr; min-height: 420px; }
+.d-win--dark .d-win__bar b { color: #eceee8; font-weight: 500; } .d-win--dark .d-win__bar .sp { flex: 1; }
+.hero__window .d-chat { padding: 14px 18px; gap: 8px; }
+.hero__window .d-msg--me small { display: none; }
+.hero__window .d-msg--bot { max-width: 88%; }
+.hero__window .d-msg--bot small { display: inline; margin: 0 0 0 8px; white-space: nowrap; }
+.hero__window .d-tool { font-family: var(--font-mono); }
+@media (max-width: 639px) { .hero__window .d-win__bar .sp ~ span { display: none; } }
+.inbox { border-right: 1px solid rgb(255 255 255 / .07); padding: 10px; display: grid; align-content: start; gap: 2px; }
+.inbox .q { height: 34px; margin-bottom: 6px; border-radius: 6px; background: rgb(255 255 255 / .06); display: flex; align-items: center; padding: 0 10px; color: #858b84; font-size: 13px; }
+.inbox .t { display: grid; grid-template-columns: 30px 1fr auto; gap: 1px 10px; padding: 9px 8px; border-radius: 6px; font-size: 13px; }
+.inbox .t.is-on { background: rgb(255 255 255 / .07); }
+.inbox .t i { grid-row: 1 / span 2; width: 30px; height: 30px; border-radius: 6px; display: grid; place-items: center; font: 500 12px/1 var(--font-mono); font-style: normal; color: #161c1a; }
+.inbox .t b { font-weight: 500; color: #eceee8; } .inbox .t time { color: #858b84; font-size: 13px; }
+.inbox .t span { grid-column: 2 / -1; color: #959b94; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.convo { display: grid; min-width: 0; align-content: start; }
+.d-msg--bot { background: #232b28; color: #e9ebe5; }
+.acts { display: flex; gap: 8px; } .acts span { height: 30px; padding: 0 12px; border-radius: 6px; display: inline-flex; align-items: center; font-size: 13px; font-weight: 500; background: #9fc7b8; color: #161c1a; }
+.acts span + span { background: rgb(255 255 255 / .08); color: #e9ebe5; }
+@media (max-width: 639px) { .d-win--dark .d-win__body { grid-template-columns: 1fr; } .inbox { display: none; } .hero__window .d-chat { font-size: 13px; padding: 12px 14px; } .hero__window .d-msg--bot small, .hero__window .d-tool { display: none; } }
+
+/* app-frame (sections-library.md) */
+.app.ui { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); margin-top: var(--s-7); background: var(--u-bg); border: 1px solid var(--u-border); border-radius: var(--u-r); box-shadow: var(--u-shadow); }
+.app > .app__pane { position: relative; min-width: 0; min-height: 0; overflow: hidden; }
+.app > .app__pane + .app__pane { border-left: 1px solid var(--u-line); }
+.app > .app__pane > .ui-panel { width: 100%; border: 0; border-radius: 0; box-shadow: none; }
+.app > .app__pane::after { content: ""; position: absolute; inset: auto 0 0 0; height: 64px; background: linear-gradient(transparent, var(--u-bg)); pointer-events: none; }
+@media (min-width: 1024px) and (max-width: 1279px) { .app.ui { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); } }
+@media (max-width: 1023px) {
+  .app.ui { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr); }
+  .app > .app__pane--list { max-height: 252px; }
+  .app > .app__pane--list::after { display: none; }
+  .app .ui-win__side { display: none; }
+  .app .ui-win__body { grid-template-columns: minmax(0, 1fr); }
+  .app > .app__pane + .app__pane { border-left: 0; border-top: 1px solid var(--u-line); }
+}
+@media (max-width: 639px) {
+  .app.ui { grid-template-rows: minmax(0, 1fr); }
+  .app > .app__pane--list { display: none; }
+  .app > .app__pane + .app__pane { border-top: 0; }
+}
+
+/* features: one panel height for the four cards */
+#features .panel { --p-h: 336px; }
+@media (min-width: 1024px) and (max-width: 1279px) { #features .panel { --p-h: 244px; } }
+@media (max-width: 639px) { #features .panel { --p-h: 150px; } #features .card > p { display: none; } }
+
+/* the schedule triggers under the statement: shown where the statement alone leaves the screen half empty */
+.sched-rows { display: none; margin-top: var(--s-7); }
+@media (max-width: 1023px) { .sched-rows { display: grid; } }
+@media (max-width: 639px) { .sched-rows li > p { display: none; } }
+/* the installer: the real marks of what it brings, in one row above the list */
+#install .install-panel { --p-h: 380px; margin-top: var(--s-6); }
+@media (min-width: 640px) and (max-width: 1023px) { #install .install-panel { --p-h: 200px; } #install .rows--spec li > p, #install .install-lede { display: none; } }
+@media (max-width: 639px) { #install .install-panel { --p-h: 200px; } }
+@media (max-width: 639px) { #install .rows--spec li > p, #install .install-lede, #faq .faq-lede { display: none; } }
+
+/* body text in ink (the kit's grey is for labels) */
+.hero--centred .hero__lead, #automations .mo-la__sub { color: var(--ink); }
+.hero--centred h1 { margin-inline: auto; }
+html .ui-pause.loop-pause:focus-visible { outline: 2px solid #161c1a; outline-offset: 0; box-shadow: 0 0 0 4px #9fc7b8; }
+@media (max-width: 359px) { .btn--xl.btn--wide { padding-inline: var(--s-5); } #install, #faq { --hm: 2; } .nav:not(.is-open) .nav__actions { display: none; } }
+@media (max-width: 639px) { .faq > .faq__item--desk { display: none; } }
+</style>
+</head>
+<body>
+<!-- type: software (developer tool)
+     deal: hero centred, palette green-black-bone, type epilogue, radius sharp, nav nav-centre (nav-cards dealt; no photographs, so dealt again), close close-type, footer footer-dark, rhythm surface-pairs, buttons tonal, mark wordmark, grounds none
+     effect: fluted-glass in the hero window
+     moments: letters-assemble in #automations -->
+
+<header class="nav nav--centre">
+  <div class="wrap nav__bar">
+    <a class="skip-link" href="#top">Skip to content</a>
+    <a class="nav__logo" href="#top">Overwork</a>
+    <nav class="nav__links" aria-label="Main">
+      <div class="nav__item">
+        <a class="nav__link" href="#app">Product <svg class="chev" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <div class="nav__menu">
+          <div class="wrap grid">
+            <div class="menu-col span-3"><p class="t-label">Work</p><a href="#documents">Documents<span>Word, Excel and PowerPoint</span></a><a href="#browser">Browser<span>An in-app Chrome you watch</span></a></div>
+            <div class="menu-col span-3"><p class="t-label">Control</p><a href="#research">Research<span>Answers with numbered sources</span></a><a href="#permissions">Permissions<span>What an agent may touch</span></a></div>
+          </div>
+        </div>
+      </div>
+      <div class="nav__item"><a class="nav__link" href="#features">Features</a></div>
+      <div class="nav__item"><a class="nav__link" href="#automations">Automations</a></div>
+      <div class="nav__item"><a class="nav__link" href="#install">Install</a></div>
+      <div class="nav__item"><a class="nav__link" href="#faq">Questions</a></div>
+    </nav>
+    <div class="nav__actions">
+      <a class="btn btn--primary" href="https://github.com/digvija4508-jpg/sage-vault/releases/latest/download/Overwork-Setup-0.2.0.exe">Download for Windows</a>
+    </div>
+    <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Menu"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 5h14M2 13h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero hero--centred" data-enter aria-labelledby="hero-h">
+    <div class="wrap"><div class="hero-text">
+      <div class="hero__c">
+        <a class="pill" href="#install"><span>Version 0.2.0</span><span class="muted">See what the installer adds</span></a>
+        <h1 id="hero-h" aria-label="Coding agents for Windows">Coding agents for Windows</h1>
+        <p class="hero__lead">Overwork runs coding agents on free Kilo and OpenCode models, with its own browser, Office writers and research. One 421 MB installer brings the app, Node and both agents.</p>
+        <div class="btn-row"><a class="btn btn--primary" href="https://github.com/digvija4508-jpg/sage-vault/releases/latest/download/Overwork-Setup-0.2.0.exe">Download for Windows</a><a class="btn btn--secondary" href="#app">See an agent at work</a></div>
+      </div>
+      <div class="hero__window" data-fx="fluted-glass" data-fx-seed="7" role="img" aria-label="An Overwork agent fixing a failing cart test in a project called shop-api">
+        <div class="ly-piece d-win d-win--dark" aria-hidden="true">
+          <div class="d-win__bar"><span class="d-win__dots"><i></i><i></i><i></i></span><span><b>shop-api</b> · CodeVanta</span><span class="sp"></span><span>Kilo · kilo-auto/free</span></div>
+          <div class="d-win__body">
+            <div class="inbox">
+              <div class="q">Search tasks</div>
+              <div class="t is-on"><i style="background:#9fc7b8">CT</i><b>Fix cart total test</b><time>10:42</time><span>Running npm test</span></div>
+              <div class="t"><i style="background:#e3c48f">RN</i><b>Write release notes</b><time>10:31</time><span>Done · notes/0.4.md</span></div>
+              <div class="t"><i style="background:#a9c4d8">PG</i><b>Compare Postgres poolers</b><time>10:12</time><span>12 sources read</span></div>
+              <div class="t"><i style="background:#d9a99a">BD</i><b>Build Q3 board deck</b><time>09:58</time><span>Done · board-q3.pptx</span></div>
+            </div>
+            <div class="convo">
+              <div class="d-chat" data-ly-steps="900">
+                <div class="d-msg d-msg--me">The cart total test fails since yesterday. Find out why and fix it.<small>10:42</small></div>
+                <div class="d-tool" data-step>npm test · reading src/cart.mjs</div>
+                <div class="d-msg d-msg--bot" data-step>The discount was taken after tax. I moved it before tax in src/cart.mjs, line 42, and all 38 cart tests pass.<small>2 files changed</small></div>
+                <div class="acts" data-step><span>Keep changes</span><span>Show diff</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div></div>
+  </section>
+
+  <section class="section" id="app" aria-labelledby="app-h">
+    <div class="wrap">
+      <div class="grid grid--top">
+        <h2 id="app-h" class="span-5">Every Overwork task in one list.</h2>
+        <p class="span-6 start-7">Tasks run in your project folder with the access you choose. Each one keeps its commands, edits and output, so you can check the work or roll it back. <a class="link" href="#install">See what the installer adds</a></p>
+      </div>
+      <div class="ui app fill" role="img" aria-label="The CodeVanta task list beside a test run in the shop-api project" data-ui-pause-host>
+        <div class="app__pane app__pane--list">
+          <div class="ui ui-panel ui-win" data-ui="window" data-open="Queued" data-work="Running" data-done="Done">
+            <div class="ui-win__bar">
+              <span class="ui-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+              <span class="ui-win__crumb">CodeVanta <i>/</i> <b>Tasks</b></span>
+              <span class="ui-spacer"></span>
+              <span class="ui-win__search" aria-hidden="true"><svg class="ui-icon" viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5"/><path d="m10.5 10.5 3 3"/></svg><span class="ui-win__ph">Search</span><span class="ui-kbd">/</span></span>
+            </div>
+            <div class="ui-win__body">
+              <nav class="ui-win__side" aria-hidden="true">
+                <span class="ui-win__nav is-on"><svg class="ui-icon" viewBox="0 0 16 16"><path d="M2.5 9h3l1 1.5h3l1-1.5h3"/><path d="M2.5 9 4 3.5h8L13.5 9v3.5h-11z"/></svg>Tasks<em>11</em></span>
+                <span class="ui-win__nav"><svg class="ui-icon" viewBox="0 0 16 16"><circle cx="8" cy="8" r="5.5"/><path d="M8 5v3l2 1.5"/></svg>Running<em>2</em></span>
+                <span class="ui-win__nav"><svg class="ui-icon" viewBox="0 0 16 16"><path d="m3.5 8.4 2.8 2.8 6.2-6.4"/></svg>Done<em>8</em></span>
+                <span class="ui-win__label">Views</span>
+                <span class="ui-win__nav"><span class="ui-win__hash">#</span>Agents</span>
+                <span class="ui-win__nav"><span class="ui-win__hash">#</span>Automations</span>
+              </nav>
+              <div class="ui-win__main">
+                <div class="ui-win__cols" aria-hidden="true"><span>Project</span><span>Task</span><span>Status</span><span>Age</span></div>
+                <ul class="ui-win__rows">
+                  <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="1">SA</span><span class="ui-win__who">shop-api</span><span class="ui-win__sub">Fix cart total test · +6 −2</span><span class="ui-win__st" data-st>Queued</span><span class="ui-win__age">1m</span></li>
+                  <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="3">DS</span><span class="ui-win__who">docs-site</span><span class="ui-win__sub">Write release notes for 0.4</span><span class="ui-win__st" data-st>Queued</span><span class="ui-win__age">12m</span></li>
+                  <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="4">SA</span><span class="ui-win__who">shop-api</span><span class="ui-win__sub">Compare Postgres poolers</span><span class="ui-win__st is-done" data-st>Done</span><span class="ui-win__age">31m</span></li>
+                  <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="2">FN</span><span class="ui-win__who">finance</span><span class="ui-win__sub">Build Q3 board deck</span><span class="ui-win__st is-done" data-st>Done</span><span class="ui-win__age">44m</span></li>
+                  <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="5">MW</span><span class="ui-win__who">mobile-web</span><span class="ui-win__sub">Check the sign-up form in Chrome</span><span class="ui-win__st is-you" data-st>Needs you</span><span class="ui-win__age">52m</span></li>
+                  <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="1">SA</span><span class="ui-win__who">shop-api</span><span class="ui-win__sub">Update dependencies · audit</span><span class="ui-win__st is-done" data-st>Done</span><span class="ui-win__age">1h</span></li>
+                  <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="3">DS</span><span class="ui-win__who">docs-site</span><span class="ui-win__sub">Fix broken links in /guides</span><span class="ui-win__st is-done" data-st>Done</span><span class="ui-win__age">2h</span></li>
+                  <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="2">FN</span><span class="ui-win__who">finance</span><span class="ui-win__sub">Pricing model to Excel</span><span class="ui-win__st is-done" data-st>Done</span><span class="ui-win__age">3h</span></li>
+                  <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="4">MW</span><span class="ui-win__who">mobile-web</span><span class="ui-win__sub">Add dark mode tokens</span><span class="ui-win__st is-done" data-st>Done</span><span class="ui-win__age">5h</span></li>
+                  <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="5">SA</span><span class="ui-win__who">shop-api</span><span class="ui-win__sub">Daily test run · automation</span><span class="ui-win__st is-done" data-st>Done</span><span class="ui-win__age">9h</span></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="app__pane app__pane--open" data-ui-loop>
+          <div class="ui ui-panel ui-term" data-ui="terminal-run">
+            <div class="ui-term__head">
+              <span class="ui-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+              <span class="ui-term__title">shop-api</span>
+              <span class="ui-meta">Git Bash</span>
+              <span class="ui-spacer"></span>
+              <span class="ui-chip ui-chip--plain ui-term__branch"><svg viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="3.5" r="1.5"/><circle cx="5" cy="12.5" r="1.5"/><circle cx="11" cy="5.5" r="1.5"/><path d="M5 5v6M11 7c0 2.6-6 1.8-6 4"/></svg>fix/cart-total</span>
+            </div>
+            <div class="ui-term__screen" data-term-screen>
+              <div class="ui-term__track" data-term-track>
+                <div class="ui-term__ln ui-term__cmd"><span class="ui-term__cwd">~/<span class="ui-term__up">projects/</span>shop-api</span><span class="ui-term__sig">$</span><span class="ui-term__typed" data-term-cmd>npm test</span></div>
+                <div class="ui-term__ln ui-term__meter" data-term-out data-term-meter><span class="ui-term__bar" style="--p:1"><i></i></span><span class="ui-term__count" data-term-count>5 of 5 files</span></div>
+                <div class="ui-term__ln ui-term__log" data-term-out data-term-step><svg class="ui-term__tick" viewBox="0 0 16 16" aria-hidden="true"><path d="m3.5 8.4 2.8 2.8 6.2-6.4"/></svg><span class="ui-term__path">cart/total.test.mjs</span><span class="ui-term__n">38 tests</span><span class="ui-term__t">392ms</span></div>
+                <div class="ui-term__ln ui-term__log" data-term-out data-term-step><svg class="ui-term__tick" viewBox="0 0 16 16" aria-hidden="true"><path d="m3.5 8.4 2.8 2.8 6.2-6.4"/></svg><span class="ui-term__path">cart/discount.test.mjs</span><span class="ui-term__n">21 tests</span><span class="ui-term__t">208ms</span></div>
+                <div class="ui-term__ln ui-term__log" data-term-out data-term-step><svg class="ui-term__tick" viewBox="0 0 16 16" aria-hidden="true"><path d="m3.5 8.4 2.8 2.8 6.2-6.4"/></svg><span class="ui-term__path">orders/routes.test.mjs</span><span class="ui-term__n">46 tests</span><span class="ui-term__t">1.14s</span></div>
+                <div class="ui-term__ln ui-term__log" data-term-out data-term-step><svg class="ui-term__tick" viewBox="0 0 16 16" aria-hidden="true"><path d="m3.5 8.4 2.8 2.8 6.2-6.4"/></svg><span class="ui-term__path">payments/refund.test.mjs</span><span class="ui-term__n">17 tests</span><span class="ui-term__t">515ms</span></div>
+                <div class="ui-term__ln ui-term__log" data-term-out data-term-step><svg class="ui-term__tick" viewBox="0 0 16 16" aria-hidden="true"><path d="m3.5 8.4 2.8 2.8 6.2-6.4"/></svg><span class="ui-term__path">users/session.test.mjs</span><span class="ui-term__n">12 tests</span><span class="ui-term__t">166ms</span></div>
+                <div class="ui-term__ln ui-term__gap" data-term-out aria-hidden="true"></div>
+                <div class="ui-term__ln ui-term__sum" data-term-out><span class="ui-term__key">Test files</span><span class="ui-term__val">5 passed</span><span class="ui-term__dim">(5)</span></div>
+                <div class="ui-term__ln ui-term__sum" data-term-out><span class="ui-term__key">Tests</span><span class="ui-term__val">134 passed</span><span class="ui-term__dim">(134)</span></div>
+                <div class="ui-term__ln ui-term__done" data-term-out data-term-done><span class="ui-term__ok"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4.5 8.3 2.4 2.4 4.6-5"/></svg></span><b>Done</b><span class="ui-term__dim">in 2.43s</span></div>
+                <div class="ui-term__ln ui-term__cmd" data-term-next><span class="ui-term__cwd">~/<span class="ui-term__up">projects/</span>shop-api</span><span class="ui-term__sig">$</span><span class="ui-term__typed"></span><i class="ui-term__caret" aria-hidden="true"></i></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section g2" id="features" aria-labelledby="features-h">
+    <div class="wrap">
+      <div class="group">
+        <div class="section-head">
+          <h2 id="features-h">Overwork agents do more than code. <span class="muted">Files, pages and sources.</span></h2>
+        </div>
+        <div class="grid">
+          <article class="card card--row span-6" id="documents">
+            <h3>Writes Word, Excel and PowerPoint files</h3>
+            <p>Ask for a deck or a report and get a real .pptx or .docx in your project folder.</p>
+            <div class="panel panel--flush">
+              <div class="stage stage--fade-b"><div class="at-rise fit" style="--fit-max:400px;--ax:max(24px, 50% - 200px);--ay:56px;--ay-sm:24px" data-ui-loop>
+                <div class="ui ui-files" data-ui="files" data-reading="Writing {n} of {total}">
+                  <div class="ui-files__status"><span class="ui-dot"></span><span data-files-status>4 files written</span></div>
+                  <ul class="ui-files__grid">
+                    <li class="ui-file is-done"><span class="ui-file__icon"><img src="assets/icons/pptx.svg" alt=""></span><span class="ui-file__name">board-q3.pptx</span><span class="ui-file__kind">12 slides</span><span class="ui-file__bar"><i></i></span><span class="ui-file__check"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4.5 8.2 2.3 2.3 4.7-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></li>
+                    <li class="ui-file is-done"><span class="ui-file__icon"><img src="assets/icons/xlsx.svg" alt=""></span><span class="ui-file__name">pricing-model.xlsx</span><span class="ui-file__kind">3 sheets</span><span class="ui-file__bar"><i></i></span><span class="ui-file__check"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4.5 8.2 2.3 2.3 4.7-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></li>
+                    <li class="ui-file is-done"><span class="ui-file__icon"><img src="assets/icons/docx.svg" alt=""></span><span class="ui-file__name">release-notes.docx</span><span class="ui-file__kind">4 pages</span><span class="ui-file__bar"><i></i></span><span class="ui-file__check"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4.5 8.2 2.3 2.3 4.7-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></li>
+                    <li class="ui-file is-done"><span class="ui-file__icon"><img src="assets/icons/pdf.svg" alt=""></span><span class="ui-file__name">pooler-brief.pdf</span><span class="ui-file__kind">2 pages</span><span class="ui-file__bar"><i></i></span><span class="ui-file__check"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4.5 8.2 2.3 2.3 4.7-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></li>
+                  </ul>
+                </div>
+              </div></div>
+            </div>
+          </article>
+          <article class="card card--row span-6" id="browser">
+            <h3>Drives Chrome and desktop apps</h3>
+            <p>Agents open pages, click and type in an in-app Chrome you can watch, and reach Windows apps too.</p>
+            <div class="panel panel--flush">
+              <div class="stage stage--fade-b"><div class="at-rise fit" style="--fit-max:400px;--ax:max(24px, 50% - 200px);--ay:calc(100% - 180px);--ay-sm:calc(100% - 140px)">
+                <div class="ui ui-notify" data-ui="notify">
+                  <ul class="ui-notify__list" data-notify-list>
+                    <li class="ui-note"><span class="ui-note__ico"><img src="assets/icons/chrome.svg" alt="" width="16" height="16"></span><span class="ui-note__text"><span class="ui-note__title">Opened /signup<time>now</time></span><span class="ui-note__body">mobile-web, in the in-app Chrome</span></span><span class="ui-btn ui-btn--sm ui-note__btn">Watch</span></li>
+                    <li class="ui-note"><span class="ui-note__ico"><svg class="ui-icon" viewBox="0 0 16 16"><path d="m3.5 8.4 2.8 2.8 6.2-6.4"/></svg></span><span class="ui-note__text"><span class="ui-note__title">Filled 4 form fields<time>1m</time></span><span class="ui-note__body">Name, email, password left to you</span></span></li>
+                    <li class="ui-note"><span class="ui-note__ico"><img src="assets/icons/windows.svg" alt="" width="16" height="16"></span><span class="ui-note__text"><span class="ui-note__title">Clicked Save in Excel<time>3m</time></span><span class="ui-note__body">Through Windows UI Automation</span></span></li>
+                  </ul>
+                </div>
+              </div></div>
+            </div>
+          </article>
+        </div>
+      </div>
+      <div class="grid">
+        <article class="card card--row span-6" id="research">
+          <h3>Answers with numbered sources</h3>
+          <p>Research mode searches, reads the pages and cites each claim, so you can open the source.</p>
+          <div class="panel panel--flush">
+            <div class="stage stage--fade-b"><div class="at-rise fit" style="--fit-max:400px;--ax:max(24px, 50% - 200px);--ay:56px;--ay-sm:24px">
+              <div class="ui ui-panel ui-chat" data-ui="chat">
+                <div class="ui-head"><span class="ui-agent" aria-hidden="true"></span><div class="ui-title">Research</div><span class="ui-chat__online">Pro</span><span class="ui-spacer"></span></div>
+                <div class="ui-chat__body">
+                  <div class="ui-chat__day">Today, 10:12</div>
+                  <div class="ui-msg ui-msg--me" data-chat-q><span class="ui-msg__text">Which Postgres pooler suits a small API?</span></div>
+                  <div class="ui-msg ui-msg--bot" data-chat-a>
+                    <span class="ui-agent ui-msg__av" aria-hidden="true"></span>
+                    <span class="ui-msg__col">
+                      <span class="ui-chat__typing" aria-hidden="true"><i></i><i></i><i></i></span>
+                      <span class="ui-chat__answer">PgBouncer in transaction mode: one small process beside the database <b>[1]</b>. Pgpool-II adds load balancing you may not need <b>[2]</b>.</span>
+                      <span class="ui-chat__srcs"><span class="ui-chat__src"><svg class="ui-icon" viewBox="0 0 16 16"><path d="M4 2.5h5l3 3v8H4z"/><path d="M9 2.5v3h3"/></svg>pgbouncer.org</span><span class="ui-chat__src"><svg class="ui-icon" viewBox="0 0 16 16"><path d="M4 2.5h5l3 3v8H4z"/><path d="M9 2.5v3h3"/></svg>pgpool.net</span></span>
+                    </span>
+                  </div>
+                </div>
+                <div class="ui-chat__input"><span class="ui-chat__ph">Ask a follow-up</span><span class="ui-chat__send" aria-hidden="true"><svg viewBox="0 0 16 16" width="14" height="14"><path d="M8 13V3.5M3.8 7.5 8 3.3l4.2 4.2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+              </div>
+            </div></div>
+          </div>
+        </article>
+        <article class="card card--row span-6" id="permissions">
+          <h3>Asks before it runs commands</h3>
+          <p>Pick what an agent may do in each project: read only, edit files, or full access.</p>
+          <div class="panel panel--flush">
+            <div class="stage"><div class="at-right to-edge" style="--ax:32px;--ay:56px">
+              <div class="ui ui-panel ui-toggles" data-ui="toggles">
+                <div class="ui-head">
+                  <svg class="ui-icon ui-toggles__ico" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.8 13 4v3.6c0 3-2.1 5.4-5 6.6-2.9-1.2-5-3.6-5-6.6V4z"/><path d="m5.8 8 1.6 1.6 3-3.2"/></svg>
+                  <div class="ui-title">shop-api access</div>
+                  <span class="ui-spacer"></span>
+                  <div class="ui-meta" data-tg-count>3 of 4 on</div>
+                </div>
+                <ul class="ui-toggles__list">
+                  <li class="ui-tg"><span class="ui-tg__text"><span class="ui-tg__label">Edit files in the project</span><span class="ui-tg__sub">Every change can be rolled back</span></span><button class="ui-switch is-on" type="button" role="switch" aria-checked="true" aria-label="Edit files in the project"><i></i></button></li>
+                  <li class="ui-tg"><span class="ui-tg__text"><span class="ui-tg__label">Run terminal commands</span><span class="ui-tg__sub">Asks you before each one</span></span><button class="ui-switch is-on" type="button" role="switch" aria-checked="true" aria-label="Run terminal commands"><i></i></button></li>
+                  <li class="ui-tg"><span class="ui-tg__text"><span class="ui-tg__label">Use the in-app browser</span><span class="ui-tg__sub">Never types into password fields</span></span><button class="ui-switch is-on" type="button" role="switch" aria-checked="true" aria-label="Use the in-app browser"><i></i></button></li>
+                  <li class="ui-tg"><span class="ui-tg__text"><span class="ui-tg__label">Reach files outside the project</span><span class="ui-tg__sub">Full access only</span></span><button class="ui-switch" type="button" role="switch" aria-checked="false" aria-label="Reach files outside the project"><i></i></button></li>
+                </ul>
+              </div>
+            </div></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="automations" data-moment="letters-assemble" data-moment-opts='{"spread": 1}' aria-labelledby="auto-h">
+    <div class="wrap">
+      <h2 class="mo-la__type" id="auto-h">Overwork automations</h2>
+      <p class="mo-la__sub">Save a task to run daily, on weekdays or every few hours. Each step is a real agent task you can open later, and its report goes to the next step.</p>
+      <ul class="rows sched-rows" aria-label="Automation templates">
+        <li><span class="rows__name">Test and fix</span><p>Runs the tests and fixes what fails</p><span class="rows__value">Daily 09:00</span></li>
+        <li><span class="rows__name">Dependency audit</span><p>Checks for outdated and unsafe packages</p><span class="rows__value">Mondays 08:00</span></li>
+        <li><span class="rows__name">Research digest</span><p>A cited summary of what is new on a topic</p><span class="rows__value">Weekdays 18:00</span></li>
+        <li><span class="rows__name">Page watch</span><p>Reports what changed on a web page</p><span class="rows__value">Every 4 hours</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section ground-surface" id="install" aria-labelledby="install-h">
+    <div class="wrap">
+      <div class="grid grid--top fill">
+        <div class="span-5 stack-4">
+          <h2 id="install-h">What the Overwork installer adds.</h2>
+          <p class="install-lede">One 421 MB file. It installs for your Windows user only, needs no admin rights, and can put its tools on your PATH.</p>
+          <p><a class="link" href="https://github.com/digvija4508-jpg/sage-vault/releases">See every release on GitHub</a></p>
+          <div class="panel install-panel">
+            <div class="stage"><div class="at-rise fit" style="--fit-max:420px;--ax:max(24px, 50% - 210px);--ay:32px;--ay-sm:20px" data-ui-loop>
+              <div class="ui ui-panel ui-checks" data-ui="checklist">
+                <div class="ui-checks__head"><div class="ui-title">Overwork Setup 0.2.0</div><span class="ui-spacer"></span><div class="ui-meta" data-checks-count>3 of 5</div></div>
+                <div class="ui-checks__bar"><i data-checks-bar style="--k:0.6"></i></div>
+                <ul class="ui-checks__list">
+                  <li class="ui-check is-done"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">Copy the app and its servers</span></li>
+                  <li class="ui-check is-done"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">Add Node.js 26.12.1</span></li>
+                  <li class="ui-check is-done"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">Prepare OpenCode and Kilo Code</span></li>
+                  <li class="ui-check"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">Add the tools to your PATH</span></li>
+                  <li class="ui-check"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">Create the Start menu shortcuts</span></li>
+                </ul>
+              </div>
+            </div></div>
+          </div>
+        </div>
+        <ul class="rows rows--spec span-6 start-7">
+          <li><span class="rows__name">Overwork</span><p>CodeVanta, Documents, Research and Studio</p><span class="rows__value">0.2.0</span></li>
+          <li><span class="rows__name">Node.js</span><p>Runs the app's own servers</p><span class="rows__value">26.12.1</span></li>
+          <li><span class="rows__name">OpenCode</span><p>Agent for OpenCode Zen models</p><span class="rows__value">1.19.3</span></li>
+          <li><span class="rows__name">Kilo Code</span><p>Agent for Kilo's free models</p><span class="rows__value">7.8.18</span></li>
+          <li><span class="rows__name">Skills</span><p>For documents, browsing and review</p><span class="rows__value">73</span></li>
+          <li><span class="rows__name">Windows</span><p>10 or 11, 64-bit</p><span class="rows__value">x64</span></li>
+          <li><span class="rows__name">Git for Windows</span><p>The agents' shell; install it yourself</p><span class="rows__value">Not included</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section ground-surface" id="faq" aria-labelledby="faq-h">
+    <div class="wrap">
+      <div class="grid grid--top fill">
+        <div class="span-5 stack-4">
+          <h2 id="faq-h">Questions about installing Overwork</h2>
+          <p class="faq-lede">The release notes and every past installer are on GitHub.</p>
+          <p><a class="link" href="https://github.com/digvija4508-jpg/sage-vault/releases"><img data-icon="github" class="ic ic-ink" src="assets/icons/github.svg" alt="" width="20" height="20"> Read the release notes</a></p>
+        </div>
+        <div class="faq span-6 start-7">
+          <div class="faq__item"><h3>Do I need a paid API key?</h3><p>No. The default models are the free ones from Kilo and OpenCode Zen.</p></div>
+          <div class="faq__item"><h3>Can I install Overwork over an older version?</h3><p>Yes. Run the new installer; it replaces the app and keeps your documents.</p></div>
+          <div class="faq__item"><h3>Why does Windows warn me about the file?</h3><p>The installer is not code-signed yet. Choose More info, then Run anyway.</p></div>
+          <div class="faq__item"><h3>Does Overwork need admin rights?</h3><p>No. It installs under your own Windows user, in AppData.</p></div>
+          <div class="faq__item faq__item--desk"><h3>Which models does Overwork use by default?</h3><p>Kilo's free auto model and the free OpenCode Zen models. You pick the model for each task.</p></div>
+          <div class="faq__item"><h3>What stays if I uninstall Overwork?</h3><p>Your documents stay. The app, its tools and its PATH entry are removed.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer closing footer--dark ground-inverse" id="contact" aria-labelledby="close-h">
+  <div class="wrap">
+    <div class="closing__cta close--type">
+      <div class="section-head">
+        <h2 id="close-h">Install Overwork on your PC</h2>
+        <p>Version 0.2.0, 421 MB, for Windows 10 and 11.</p>
+      </div>
+      <a class="btn btn--primary btn--xl btn--wide" href="https://github.com/digvija4508-jpg/sage-vault/releases/latest/download/Overwork-Setup-0.2.0.exe">Download for Windows<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a>
+    </div>
+    <div class="closing__links">
+      <div class="grid">
+        <div class="span-4 stack-4">
+          <a class="nav__logo" href="#top">Overwork</a>
+          <p class="footer__lede">Coding agents for Windows, free models first.</p>
+        </div>
+        <div class="span-2 footer__col"><h3>Product</h3><ul><li><a href="#app">Tasks</a></li><li><a href="#documents">Documents</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>Features</h3><ul><li><a href="#browser">Browser</a></li><li><a href="#research">Research</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>Automations</h3><ul><li><a href="#automations">Schedules</a></li><li><a href="#permissions">Permissions</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>Install</h3><ul><li><a href="#install">What it adds</a></li><li><a href="#faq">Questions</a></li></ul></div>
+      </div>
+      <div class="footer__legal">
+        <span>&copy; 2026 Overwork</span>
+        <div class="socials"></div>
+        <span class="t-small muted">Product names and logos are trademarks of their owners</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script type="module" src="assets/system.js"></script>
+<script type="module" src="assets/motion/motion.js"></script>
+<script type="module" src="assets/layout/layout.js"></script>
+</body>
+</html>

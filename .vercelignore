@@ -1,4 +1,4 @@
-storage/downloads/*.exe
-storage/downloads/*.zip
-scratch/
 .git
+.taste-skill/
+shots/
+README.md

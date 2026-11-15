@@ -44,3 +44,7 @@ yarn-error.log*
 next-env.d.ts
 
 .vercel
+
+# design checker output
+.taste-skill/
+shots/
