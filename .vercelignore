@@ -2,3 +2,5 @@
 .taste-skill/
 shots/
 README.md
+.env*
+.vercel
